@@ -2,7 +2,7 @@ import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 import './sign-in.component.styles.scss';
 import { useState } from 'react';
-import { signInWithGooglePopup, createUserDocumentFromAuth,
+import { signInWithGooglePopup,
     signInAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 
 const defaultFormInputs = {
@@ -14,18 +14,19 @@ const SignInForm = () => {
   const [formInputs, setFormInputs] = useState(defaultFormInputs);
   const { email, password } = formInputs;
 
+
   const handleChange = event => {
     const { name, value } = event.target;
     setFormInputs({ ...formInputs, [name]: value });
   };
 
   const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSignIn = async event => {
     event.preventDefault();
+
     try {
         await signInAuthUserWithEmailAndPassword(email, password)
         setFormInputs({...defaultFormInputs})
@@ -36,7 +37,7 @@ const SignInForm = () => {
 
   return (
     <div className='sign-up-container'>
-                    <h2>Sign in page</h2>
+      <h2>Sign in page</h2>
       <FormInput lable="Email" required type="email" onChange={handleChange} name="email" value={email} />
 
       <FormInput lable="Password" required type="password" onChange={handleChange} name="password" value={password} />
